@@ -1,7 +1,8 @@
 from cryptography.fernet import Fernet
 
-# Generate once and keep constant
-key = b'0vQ5m8kH8pYxZxX3gS8u5r1Y7Kjv3G9m8Xc4wQ2L1A='
+# ✅ Valid Fernet key
+key = b'X6vVnZ4r2l0l3F8xJv9qY3c5T8p2K6mN4Q1W7E9R2TY='
+
 cipher = Fernet(key)
 
 def encrypt_message(msg):

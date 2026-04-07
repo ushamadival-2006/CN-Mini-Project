@@ -46,9 +46,20 @@ def receive():
 
             # ---------------- MESSAGE ----------------
             else:
-                # 🔐 Convert to bytes → decrypt
-                decrypted_msg = decrypt_message(data.decode().encode())
-                print(f"\n💬 {decrypted_msg}")
+                received = data.decode()
+
+                # 👇 Handle plain server messages safely
+                if received == "Connected to server!":
+                    print(f"\n{received}")
+                else:
+                    try:
+                        print("\n🔐 Encrypted received:", received)
+
+                        decrypted_msg = decrypt_message(received.encode())
+                        print(f"💬 Decrypted message: {decrypted_msg}")
+
+                    except:
+                        print(f"\n⚠️ Received non-encrypted message: {received}")
 
         except:
             print("\n❌ Disconnected from server")
@@ -87,9 +98,16 @@ def write():
 
         # ---------------- NORMAL MESSAGE ----------------
         else:
-            # 🔐 Encrypt before sending
-            encrypted_msg = encrypt_message(msg).decode()
-            client.send(f"MSG|{encrypted_msg}".encode())
+            try:
+                encrypted_msg = encrypt_message(msg)
+
+                # 🔐 Show encrypted message
+                print("🔐 Encrypted sending:", encrypted_msg)
+
+                client.send(f"MSG|{encrypted_msg.decode()}".encode())
+
+            except Exception as e:
+                print("❌ Encryption error:", e)
 
 
 # 🔹 Initial handshake

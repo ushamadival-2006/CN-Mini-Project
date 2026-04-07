@@ -57,17 +57,25 @@ def handle_client(client):
             if data.startswith("MSG"):
                 _, encrypted_msg = data.split("|", 1)
 
-                # 🔐 Convert string → bytes
-                encrypted_msg = encrypted_msg.encode()
+                # 🔐 PRINT ENCRYPTED MESSAGE (STRING)
+                print("🔐 Encrypted received (string):", encrypted_msg)
+
+                # Convert to bytes
+                encrypted_bytes = encrypted_msg.encode()
+
+                # 🔐 PRINT ENCRYPTED MESSAGE (BYTES)
+                print("🔐 Encrypted received (bytes):", encrypted_bytes)
 
                 # 🔐 Decrypt message
-                message = decrypt_message(encrypted_msg)
+                message = decrypt_message(encrypted_bytes)
 
                 username = usernames[clients.index(client)]
                 room = client_rooms[client]
 
                 formatted_msg = f"[{room}] {username}: {message}"
-                print(formatted_msg)
+
+                # 🔐 PRINT DECRYPTED MESSAGE
+                print("💬 Decrypted message:", formatted_msg)
 
                 # 🔐 Encrypt before sending
                 encrypted_send = encrypt_message(formatted_msg)
